@@ -10,12 +10,13 @@ class jobplugin {
 
 	public function __construct()
 	{
-		//add_action('admin_menu', array($this, 'job_plugin_setup_menu'));
+		add_action('admin_menu', array($this, 'submenu_settings'));
 		add_action( 'init', array($this, 'job_plugin_setup_menu'),0);
 		register_activation_hook(__FILE__, array($this, 'rewrite_flush'));
 		add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
 		add_action('save_post', array($this, 'save_custom_meta_box'),10,3);
 		add_action( 'the_content', array($this,'meta_message' ));
+		add_shortcode( 'jobs-list', array($this, 'shortcode_display_jobs')); 
 
 	} 
 	public function job_plugin_setup_menu(){
@@ -147,15 +148,15 @@ public function meta_message( $pst ) {
 	$data = get_post_meta($post -> ID, 'meta-box-text', true);
 	$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
 	if (!empty($data) && $check=='full' ) {
-			$custom_message = "<div style='font-weight:lighter;text-align:center'>Qualification: ";
+			$custom_message = "<div style='font-weight:lighter;text-align:center'><p> Qualification: ";
 			$custom_message .= $data;
-			$custom_message .= "<br> Full Time Job</div>";
+			$custom_message .= "<br> Full Time Job</p></div>";
 			$pst = $pst.$custom_message;
 		}
 	else if (!empty($data) && $check=='part'){
-			$custom_message = "<div style='font-weight:lighter;text-align:center'>Qualification: ";
+			$custom_message = "<div style='font-weight:lighter;text-align:center'><p> Qualification: ";
 			$custom_message .= $data;
-			$custom_message .= "<br> Part Time Job</div>";
+			$custom_message .= "<br> Part Time Job</p></div>";
 			$pst = $pst.$custom_message;
 	}
 
@@ -169,6 +170,62 @@ public function add_custom_meta_box()
 {
     add_meta_box("demo-meta-box", "Custom Meta Box", array($this, "custom_meta_box_markup"), "jobs", "side", "high", null);
 }
+
+public function submenu_settings(){
+
+	add_submenu_page(
+		'edit.php?post_type=jobs',
+		'Jobs Settings',
+		'Jobs Settings',
+		'manage_options',
+		'job_settings',
+		array($this, 'settings_render')
+	);
+}
+
+public function settings_render(){
+	echo '<h2> Jobs Settings </h2>';
+}
+
+
+
+// >> Create Shortcode to Display Jobs Post Types
+  
+public function shortcode_display_jobs(){
+  
+    $args = array(
+                    'post_type'      => 'jobs',
+                    'posts_per_page' => '5',
+                    'publish_status' => 'published',
+                 );
+  
+    $query = new WP_Query($args);
+  
+    if($query->have_posts()) :
+  
+        while($query->have_posts()) :
+  
+            $query->the_post() ;
+            global $post;
+			$data = get_post_meta($post -> ID, 'meta-box-text', true);
+			$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
+                      
+	        $result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
+	        $result .= '<div class="job" style="width: 160px;float: left;margin-right: 25px; ">' . get_the_post_thumbnail() . '</div>';
+	        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px;">' . get_the_title() . '</div>';
+	        $result .= '<div>Qualification: '.$data.'</div>';
+	        $result .= '<div>Job Type- '.$check.' time</div>';
+	        $result .= '<div class="job-desc">' . get_the_content() . '</div>'; 
+	        $result .= '</div><br>';
+  
+        endwhile;
+  
+        wp_reset_postdata();
+  
+    endif;    
+  
+    return $result;            
+}	
 
 
 
