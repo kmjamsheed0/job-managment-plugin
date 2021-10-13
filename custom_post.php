@@ -91,6 +91,7 @@ class custom_post {
 	    $query = new WP_Query($args);
 	  
 	    if($query->have_posts()) :
+	    	$result = "";
 	  
 	        while($query->have_posts()) :
 	  
@@ -100,11 +101,12 @@ class custom_post {
 				$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
 	            $flag = get_option('checkbox_field');
 	            $link = get_permalink();
+	            $color = get_option('selection_field');
 	            if ($flag == "true") 
 	            {         
 			        $result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
 			        $result .= '<div class="job" style="width: 160px;float: left;margin-right: 25px; ">' . get_the_post_thumbnail() . '</div>';
-			        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px;"><a href="'.$link.'">' . get_the_title() . '</a></div>';
+			        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px; "><a style="color:'.$color.';" href="'.$link.'">' . get_the_title() . '</a></div>';
 			        $result .= '<div>Qualification: '.$data.'</div>';
 			        $result .= '<div>Job Type- '.$check.' time</div>';
 			        $result .= '<div class="job-desc">' . get_the_content() . '</div>';

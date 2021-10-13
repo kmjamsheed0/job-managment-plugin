@@ -72,10 +72,19 @@ class submenu_settings {
 			   'sample_page_setting_section'
 			);
 
+			add_settings_field(
+			   'selection_field',
+			   __( 'Select the title color', 'my-textdomain' ),
+			   array($this,'selection_markup'),
+			   'job_settings',
+			   'sample_page_setting_section'
+			);
+
 
 			register_setting( 'job_settings', 'my_setting_field' );
 			register_setting( 'job_settings', 'address' );
 			register_setting( 'job_settings', 'checkbox_field' );
+			register_setting( 'job_settings', 'selection_field' );
 	}
 
 	public function my_setting_section_callback_function() {
@@ -112,6 +121,20 @@ class submenu_settings {
                         <input name="checkbox_field" type="checkbox" value="true" checked>
                     <?php
                 }
+	}
+
+	public function selection_markup() {
+	    ?>
+	    <label for="color">Choose a color:</label>
+
+		<select name="selection_field" id="color">
+			<option value="#000000" selected>BLACK</option>
+			<option value="#FF0000">RED</option>
+			<option value="#FFFF00">YELLOW</option>
+			<option value="#4B0082">INDIGO</option>
+			<option value="#008000">GREEN</option>
+		</select>
+	    <?php
 	}
 
 
