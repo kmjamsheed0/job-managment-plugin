@@ -9,11 +9,7 @@ class custom_metaboxes {
 		add_action( 'the_content', array($this,'meta_message' )); 
 
 	} 
-
-
-
-
-
+	
 	public function add_custom_meta_box()
 	{
     	add_meta_box("demo-meta-box", "Custom Meta Box", array($this, "custom_meta_box_markup"), "jobs", "side", "high", null);

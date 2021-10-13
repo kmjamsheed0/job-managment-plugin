@@ -81,8 +81,7 @@ class custom_post {
 
 	// >> Create Shortcode to list Jobs
   
-	public function shortcode_display_jobs(){
-	  
+	public function shortcode_display_jobs() {
 	    $args = array(
 	                    'post_type'      => 'jobs',
 	                    'posts_per_page' => '5',
@@ -99,14 +98,31 @@ class custom_post {
 	            global $post;
 				$data = get_post_meta($post -> ID, 'meta-box-text', true);
 				$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
-	                      
-		        $result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
-		        $result .= '<div class="job" style="width: 160px;float: left;margin-right: 25px; ">' . get_the_post_thumbnail() . '</div>';
-		        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px;">' . get_the_title() . '</div>';
-		        $result .= '<div>Qualification: '.$data.'</div>';
-		        $result .= '<div>Job Type- '.$check.' time</div>';
-		        $result .= '<div class="job-desc">' . get_the_content() . '</div>'; 
-		        $result .= '</div><br>';
+	            $flag = get_option('checkbox_field');
+	            $link = get_permalink();
+	            if ($flag == "true") 
+	            {         
+			        $result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
+			        $result .= '<div class="job" style="width: 160px;float: left;margin-right: 25px; ">' . get_the_post_thumbnail() . '</div>';
+			        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px;"><a href="'.$link.'">' . get_the_title() . '</a></div>';
+			        $result .= '<div>Qualification: '.$data.'</div>';
+			        $result .= '<div>Job Type- '.$check.' time</div>';
+			        $result .= '<div class="job-desc">' . get_the_content() . '</div>';
+			        $result .= '<div class="hr-mail">Send your CV to: ' . get_option( 'my_setting_field' ) . '</div>';
+			        $result .= '<div class="address" style="text-align:center;">' . get_option( 'address' ) . '</div>';  
+			        $result .= '</div><br>';
+			    }
+			    elseif ($flag == "") {
+			    	$result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
+			        $result .= '<div class="job" style="width: 160px;float: left;margin-right: 25px; ">' . get_the_post_thumbnail() . '</div>';
+			        $result .= '<div class="job-title" style="font-size: 30px; padding-bottom: 20px;"><a href="'.$link.'">' . get_the_title() . '</a></div>';
+			        $result .= '<div>Qualification: '.$data.'</div>';
+			        $result .= '<div>Job Type- '.$check.' time</div>';
+			        $result .= '<div class="job-desc">' . get_the_content() . '</div>';
+			        $result .= '<div class="hr-mail">Send your CV to: ' . get_option( 'my_setting_field' ) . '</div>'; 
+			        $result .= '</div><br>';
+			    }
+
 	  
 	        endwhile;
 	  
@@ -115,7 +131,10 @@ class custom_post {
 	    endif;    
 	  
 	    return $result;            
-	}	
+	}
+
+
+	
 
 
 
