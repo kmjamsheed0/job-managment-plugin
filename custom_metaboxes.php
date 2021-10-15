@@ -6,7 +6,7 @@ class custom_metaboxes {
 	{
 		add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
 		add_action('save_post', array($this, 'save_custom_meta_box'),10,3);
-		add_action( 'the_content', array($this,'meta_message' )); 
+		add_filter( 'the_content', array($this,'meta_message' )); 
 
 	} 
 
@@ -77,7 +77,11 @@ class custom_metaboxes {
 	}
 
 
-	public function meta_message( $pst ) {
+	public function meta_message( $pst) {
+
+		if ( ! is_single() ) {
+        return $pst;
+    	}	
 		global $post;
 		$data = get_post_meta($post -> ID, 'meta-box-text', true);
 		$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
@@ -96,6 +100,33 @@ class custom_metaboxes {
 				$custom_message .= "<br> Expire On: ".$date."</p></div>";
 				$pst = $pst.$custom_message;
 		}
+
+					$likes = get_post_meta($post-> ID, "likes", true);
+					$likes = ($likes == "") ? 0 : $likes;
+			
+
+					
+
+				// Linking to the admin-ajax.php file. Nonce check included for extra security. Note the "user_like" class for JS enabled clients.
+				
+					$nonce = wp_create_nonce("my_user_like_nonce");
+					$links = admin_url('admin-ajax.php?action=my_user_like&post_id='.$post-> ID.'&nonce='.$nonce);
+
+					$pst .= '<button id="Mybtn" onclick="get()">Apply for Job</button><br><br>
+							<form id="data_form" action="" class="ajax" hidden >	
+  							<label><b>Name</b></label>
+          					<input type="text" placeholder="Enter Your Name" name="name" required class="name">
+							<label><b>Email</b></label>
+							<input type="email" placeholder="Enter your Email" name="email" required class="email">
+							<br><label><b>Skills</b></label>
+							<textarea rows="3" cols="5" placeholder="Your Skills" name="message" required class="message" ></textarea><hr>
+            				<div id="msg"></div>
+							<input type = "submit" class="submitbtn" value="Submit">
+							<div class="success_msg" style="display: none">Your Application sent!<br></div>
+							</form>';	
+					//$pst .= '<button><a class="user_like" data-nonce="' . $nonce . '" data-post_id="' . $post-> ID . '" href="' . $links . '">Apply for this </a></button><br>';
+					$pst.= '<div><span class="preview">'.$likes.' Applied</span><br></div>';
+
 
 			return $pst;
 	}

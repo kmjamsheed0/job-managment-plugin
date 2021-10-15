@@ -101,7 +101,8 @@ class custom_post {
 				$check = get_post_meta($post -> ID, 'meta-box-checkbox', true);
 	            $flag = get_option('checkbox_field');
 	            $link = get_permalink();
-	            $color = get_option('selection_field');
+	            $color = get_option('selection_field');			
+				
 	            if ($flag == "true") 
 	            {         
 			        $result .= '<div class="job-item" style="width: 100%; margin:0 auto; clear: both; margin-bottom: 20px; overflow: auto; border-bottom: #eee thin solid; padding-bottom: 20px;">';
@@ -125,6 +126,7 @@ class custom_post {
 			        $result .= '</div><br>';
 			    }
 
+			    	
 	  
 	        endwhile;
 	  
