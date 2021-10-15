@@ -137,11 +137,6 @@ class custom_post {
 	    return $result;            
 	}
 
-
-	
-
-
-
 }
 $custompost_object = new custom_post();
 

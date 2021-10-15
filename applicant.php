@@ -35,7 +35,7 @@ function applicant_post() {
 
 // register taxonomy 
 
-  register_taxonomy('applicant_category', 'applicant',     array('hierarchical' => true, 'label' => 'Category', 'query_var' => true, 'rewrite' => array( 'slug' => 'applicant-category' )));
+  register_taxonomy('applicant_category', 'applicant',array('hierarchical' => true, 'label' => 'Category', 'query_var' => true, 'rewrite' => array( 'slug' => 'applicant-category' )));
 }
 
 add_action( 'init', 'applicant_post' );

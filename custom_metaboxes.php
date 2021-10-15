@@ -101,16 +101,9 @@ class custom_metaboxes {
 				$pst = $pst.$custom_message;
 		}
 
-					$likes = get_post_meta($post-> ID, "likes", true);
-					$likes = ($likes == "") ? 0 : $likes;
-			
-
-					
-
-				// Linking to the admin-ajax.php file. Nonce check included for extra security. Note the "user_like" class for JS enabled clients.
-				
-					$nonce = wp_create_nonce("my_user_like_nonce");
-					$links = admin_url('admin-ajax.php?action=my_user_like&post_id='.$post-> ID.'&nonce='.$nonce);
+					global $job_id;
+					$job_id = $post-> ID;
+					$abc = get_the_title($job_id);
 
 					$pst .= '<button id="Mybtn" onclick="get()">Apply for Job</button><br><br>
 							<form id="data_form" action="" class="ajax" hidden >	
@@ -120,20 +113,17 @@ class custom_metaboxes {
 							<input type="email" placeholder="Enter your Email" name="email" required class="email">
 							<br><label><b>Skills</b></label>
 							<textarea rows="3" cols="5" placeholder="Your Skills" name="message" required class="message" ></textarea><hr>
-            				<div id="msg"></div>
+							<input type="text" style="display: none" name="jobname" value="'.$abc.'" required class="jobname">
 							<input type = "submit" class="submitbtn" value="Submit">
-							<div class="success_msg" style="display: none">Your Application sent!<br></div>
+							<div class="success_msg" style="display: none">Your Application for '.$abc.' job sent Succusfully!<br></div>
+							<div class="error_msg" style="display: none">Application Not Sent, There is some error.</div>
 							</form>';	
-					//$pst .= '<button><a class="user_like" data-nonce="' . $nonce . '" data-post_id="' . $post-> ID . '" href="' . $links . '">Apply for this </a></button><br>';
-					$pst.= '<div><span class="preview">'.$likes.' Applied</span><br></div>';
-
-
-			return $pst;
+					
+					return $pst;
 	}
 
 
 }
 $custom_metaboxes_object = new custom_metaboxes();
-
 
 ?>
