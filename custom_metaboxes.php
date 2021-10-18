@@ -103,7 +103,7 @@ class custom_metaboxes {
 
 					global $job_id;
 					$job_id = $post-> ID;
-					$abc = get_the_title($job_id);
+					$jobname = get_the_title($job_id);
 
 					$pst .= '<button id="Mybtn" onclick="get()">Apply for Job</button><br><br>
 							<form id="data_form" action="" class="ajax" hidden >	
@@ -113,9 +113,9 @@ class custom_metaboxes {
 							<input type="email" placeholder="Enter your Email" name="email" required class="email">
 							<br><label><b>Skills</b></label>
 							<textarea rows="3" cols="5" placeholder="Your Skills" name="message" required class="message" ></textarea><hr>
-							<input type="text" style="display: none" name="jobname" value="'.$abc.'" required class="jobname">
+							<input type="text" style="display: none" name="jobname" value="'.$jobname.'" required class="jobname">
 							<input type = "submit" class="submitbtn" value="Submit">
-							<div class="success_msg" style="display: none">Your Application for '.$abc.' job sent Succusfully!<br></div>
+							<div class="success_msg" style="display: none">Your Application for '.$jobname.' job sent Succusfully!<br></div>
 							<div class="error_msg" style="display: none">Application Not Sent, There is some error.</div>
 							</form>';	
 					

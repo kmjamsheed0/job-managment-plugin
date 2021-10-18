@@ -51,14 +51,14 @@ add_action( 'init', 'script_enqueuer' );
 function script_enqueuer() {
    
    // Register the JS file with a unique handle, file location, and an array of dependencies
-   wp_register_script( "liker_script", plugin_dir_url(__FILE__).'liker_script.js', array('jquery') );
+   wp_register_script( "script", plugin_dir_url(__FILE__).'script.js', array('jquery') );
    
    // localize the script to your domain name, so that you can reference the url to admin-ajax.php file easily
-   wp_localize_script( 'liker_script', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
+   wp_localize_script( 'script', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));        
    
    // enqueue jQuery library and the script you registered above
    wp_enqueue_script( 'jquery' );
-   wp_enqueue_script( 'liker_script' );
+   wp_enqueue_script( 'script' );
 }
  
 ?>
