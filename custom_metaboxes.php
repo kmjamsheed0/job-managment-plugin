@@ -78,9 +78,9 @@ class custom_metaboxes {
 
 
 	public function meta_message( $pst) {
-
-		if ( ! is_single() ) {
-        return $pst;
+		
+		if (!is_singular('jobs')) {
+        	return $pst;
     	}	
 		global $post;
 		$data = get_post_meta($post -> ID, 'meta-box-text', true);
@@ -92,8 +92,8 @@ class custom_metaboxes {
 				$custom_message .= "<br> Full Time Job<br>";
 				$custom_message .= "<br> Expire On: ".$date."</p></div>";
 				$pst = $pst.$custom_message;
-			}
-		else if (!empty($data) && $check=='part'){
+		}
+		elseif (!empty($data) && $check=='part') {
 				$custom_message = "<div style='font-weight:lighter;text-align:center'><p> Qualification: ";
 				$custom_message .= $data;
 				$custom_message .= "<br> Part Time Job<br>";
