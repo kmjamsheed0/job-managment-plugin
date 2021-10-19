@@ -19,7 +19,7 @@ $('form.ajax').on('submit', function(e){
          message:message,
          jobname:jobname,
     },   success: function(response) {
-         $(".success_msg").css("display","block").append('<div> Name :'+name+'<br> Email :'+email+'<br> Skill Given :'+message+'</div>')
+         $(".success_msg").css("display","block").append('<div> Name : '+name+'<br> Email : '+email+'<br> Skill Given : '+message+'</div>')
          
    },
    error: function(data){
