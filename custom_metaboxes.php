@@ -104,5 +104,5 @@ if ( ! class_exists( 'CustomMetaboxes' ) ) {
 }
 else {
     exit();
-}  	
+}
 ?>
